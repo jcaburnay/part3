@@ -5,3 +5,9 @@ GET http://localhost:3001/api/persons
 GET http://localhost:3001/api/persons/2
 ###
 POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Jonathan Caburnay",
+    "number": "98-12-231042"
+}

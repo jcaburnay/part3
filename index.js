@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let persons = [
     { 
       "id": 1,
@@ -24,6 +26,8 @@ let persons = [
     }
 ]
 
+const randomIdGenerator = range => Math.floor(Math.random() * range)
+
 app.get('/info', (request, response) => {
     response.send(
         `<p>Phonebook has info for ${persons.length} people</p>
@@ -33,6 +37,18 @@ app.get('/info', (request, response) => {
 
 app.get('/api/persons', (request, response) => {
   response.json(persons)
+})
+
+app.post('/api/persons', (request, response) => {
+    const { body } = request
+    const person = {
+        id: randomIdGenerator(1000),
+        name: body.name,
+        number: body.number
+    }
+    persons = persons.concat(person)
+    console.log(person)
+    response.json(person)
 })
 
 app.get('/api/persons/:id', (request, response) => {
