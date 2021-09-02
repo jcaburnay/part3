@@ -41,10 +41,22 @@ app.get('/api/persons', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
     const { body } = request
+    const { name, number } = body
+
+    if(!name || !number) {
+        return response.status(400).json({ 
+            error: 'content missing' 
+        })
+    }
+    if(persons.map(person => person.name).includes(name)) {
+        return response.status(409).json({
+            error: `${name} already exists`
+        })
+    }
     const person = {
         id: randomIdGenerator(1000),
-        name: body.name,
-        number: body.number
+        name,
+        number
     }
     persons = persons.concat(person)
     console.log(person)

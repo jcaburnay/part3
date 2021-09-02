@@ -8,6 +8,13 @@ POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-    "name": "Jonathan Caburnay",
+    "name": "Arto Hellas",
+    "number": "98-12-231042"
+}
+###
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
     "number": "98-12-231042"
 }
