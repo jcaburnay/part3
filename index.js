@@ -6,6 +6,8 @@ const app = express()
 app.use(express.json())
 app.use(morgan('tiny'))
 
+morgan.token('type', (req, res) => req.headers['request-body'])
+
 let persons = [
     { 
       "id": 1,
