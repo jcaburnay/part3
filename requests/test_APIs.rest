@@ -18,3 +18,24 @@ Content-Type: application/json
 {
     "number": "98-12-231042"
 }
+###
+DELETE https://agile-wave-01036.herokuapp.com/api/persons/1
+###
+GET https://agile-wave-01036.herokuapp.com/api/persons
+###
+GET https://agile-wave-01036.herokuapp.com/api/persons/2
+###
+POST https://agile-wave-01036.herokuapp.com/api/persons
+Content-Type: application/json
+
+{
+    "name": "Arto Hellas",
+    "number": "98-12-231042"
+}
+###
+POST https://agile-wave-01036.herokuapp.com/api/persons
+Content-Type: application/json
+
+{
+    "number": "98-12-231042"
+}

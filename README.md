@@ -9,4 +9,6 @@
     d. 
         i) Exercise 3.19 - 3.21: Phonebook database step 7 - 9
         ii) Exercise 3.22: Lint Configuration
-     
+
+#### Link for deployment exercise: 
+https://agile-wave-01036.herokuapp.com/api/persons
