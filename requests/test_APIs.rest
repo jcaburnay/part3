@@ -1,8 +1,10 @@
-DELETE http://localhost:3001/api/persons/1
+DELETE http://localhost:3001/api/persons/61528ff03359bb4413017550
 ###
 GET http://localhost:3001/api/persons
 ###
-GET http://localhost:3001/api/persons/2
+GET http://localhost:3001/api/persons/61528ff03359bb4413017550
+###
+GET http://localhost:3001/info
 ###
 POST http://localhost:3001/api/persons
 Content-Type: application/json
@@ -12,11 +14,11 @@ Content-Type: application/json
     "number": "98-12-231042"
 }
 ###
-POST http://localhost:3001/api/persons
+PUT http://localhost:3001/api/persons/61528dce034eea18c97f40e8
 Content-Type: application/json
 
 {
-    "number": "98-12-231042"
+    "number": "98-12-231980"
 }
 ###
 DELETE https://agile-wave-01036.herokuapp.com/api/persons/1

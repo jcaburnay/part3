@@ -31,23 +31,32 @@ app.get('/api/persons', (request, response) => {
     .then(persons => response.json(persons))
 })
 
+app.get('/api/persons/:id', (request, response, next) => {
+  const id = request.params.id
+  Person
+    .findById(id)
+    .then(person => {
+      if (person) {
+        response.json(person)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))
+})
+
 app.post('/api/persons', (request, response) => {
     const { body } = request
     const { name, number } = body
 
     if(!name || !number) {
-        return response.status(400).json({ 
-            error: 'content missing' 
-        })
+      return response.status(400).json({ 
+        error: 'content missing' 
+      })
     }
-    // if(persons.map(person => person.name).includes(name)) {
-    //     return response.status(409).json({
-    //         error: `${name} already exists`
-    //     })
-    // }
     const person = new Person({
-        name,
-        number
+      name,
+      number
     })
     person
       .save()
@@ -74,17 +83,6 @@ app.put('/api/persons/:id', (request, response, next) => {
       response.json(updatedPerson)
     })
     .catch(error => next(error))
-})
-
-app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
-    
-    if (person) {
-      response.json(person)
-    } else {
-      response.status(404).end()
-    }
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
