@@ -63,19 +63,20 @@ app.post('/api/persons', (request, response) => {
             error: 'content missing' 
         })
     }
-    if(persons.map(person => person.name).includes(name)) {
-        return response.status(409).json({
-            error: `${name} already exists`
-        })
-    }
-    const person = {
-        id: randomIdGenerator(1000),
+    // if(persons.map(person => person.name).includes(name)) {
+    //     return response.status(409).json({
+    //         error: `${name} already exists`
+    //     })
+    // }
+    const person = new Person({
         name,
         number
-    }
-    persons = persons.concat(person)
-    console.log(person)
-    response.json(person)
+    })
+    person.save().then(savedPerson => {
+      console.log(savedPerson)
+      response.json(savedPerson)
+    })
+    
 })
 
 app.get('/api/persons/:id', (request, response) => {
