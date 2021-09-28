@@ -13,45 +13,22 @@ app.use(express.static('build'))
 
 morgan.token('type', (req, res) => req.headers['request-body'])
 
-let persons = [
-    { 
-      "id": 1,
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": 2,
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": 3,
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": 4,
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    },
-    { 
-      "id": 5,
-      "name": "Jonathan Caburnay", 
-      "number": "61-47-6288100"
-    }
-]
-
-const randomIdGenerator = range => Math.floor(Math.random() * range)
-
-app.get('/info', (request, response) => {
-    response.send(
-        `<p>Phonebook has info for ${persons.length} people</p>
-         <p>${new Date()}</p>`
-    );
+app.get('/info', (request, response, next) => {
+  Person
+    .countDocuments()
+    .then(count => {
+      response.send(
+        `<p>Phonebook has info for ${count} people</p>
+        <p>${new Date()}</p>`
+      );
+    })
+    .catch(error => next(error))
 })
 
 app.get('/api/persons', (request, response) => {
-  Person.find({}).then(persons => response.json(persons))
+  Person
+    .find({})
+    .then(persons => response.json(persons))
 })
 
 app.post('/api/persons', (request, response) => {
@@ -72,10 +49,12 @@ app.post('/api/persons', (request, response) => {
         name,
         number
     })
-    person.save().then(savedPerson => {
-      console.log(savedPerson)
-      response.json(savedPerson)
-    })
+    person
+      .save()
+      .then(savedPerson => {
+        console.log(savedPerson)
+        response.json(savedPerson)
+      })
     
 })
 
@@ -90,18 +69,31 @@ app.get('/api/persons/:id', (request, response) => {
     }
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
     const id = request.params.id
     Person
       .findByIdAndRemove(id)
       .then(result => {
         response.status(204).end()
       })
-      .catch(error => {
-        console.log(error)
-        response.status(500).end()
-      })
+      .catch(error => next(error))
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
