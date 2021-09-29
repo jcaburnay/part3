@@ -7,10 +7,10 @@ const Person = require('./models/person')
 dotenv.config()
 const app = express()
 
+app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
 app.use(morgan('tiny'))
-app.use(express.static('build'))
 
 morgan.token('type', (req, res) => req.headers['request-body'])
 
