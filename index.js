@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 const dotenv = require('dotenv')
 const express = require('express')
 const morgan = require('morgan')
@@ -21,7 +23,7 @@ app.get('/info', (request, response, next) => {
       response.send(
         `<p>Phonebook has info for ${count} people</p>
         <p>${new Date()}</p>`
-      );
+      )
     })
     .catch(error => next(error))
 })
@@ -47,20 +49,20 @@ app.get('/api/persons/:id', (request, response, next) => {
 })
 
 app.post('/api/persons', (request, response, next) => {
-    const { body } = request
-    const { name, number } = body
+  const { body } = request
+  const { name, number } = body
 
-    const person = new Person({
-      name,
-      number
+  const person = new Person({
+    name,
+    number
+  })
+  person
+    .save()
+    .then(savedPerson => savedPerson.toJSON())
+    .then(savedAndFormattedPerson => {
+      response.json(savedAndFormattedPerson)
     })
-    person
-      .save()
-      .then(savedPerson => savedPerson.toJSON())
-      .then(savedAndFormattedPerson => {
-        response.json(savedAndFormattedPerson)
-      }) 
-      .catch(error => next(error)) 
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -73,7 +75,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     number
   }
   Person
-    .findByIdAndUpdate(id, person, { new: true})
+    .findByIdAndUpdate(id, person, { new: true })
     .then(updatedPerson => {
       console.log(updatedPerson)
       response.json(updatedPerson)
@@ -82,13 +84,13 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
-    const id = request.params.id
-    Person
-      .findByIdAndRemove(id)
-      .then(result => {
-        response.status(204).end()
-      })
-      .catch(error => next(error))
+  const id = request.params.id
+  Person
+    .findByIdAndRemove(id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {

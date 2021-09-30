@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const uniqueValidator = require('mongoose-unique-validator')
@@ -22,7 +24,7 @@ const personSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: function(v) {
-        return /\d{2}-\d{2}-\d{4}/.test(v);
+        return /\d{2}-\d{2}-\d{4}/.test(v)
       },
       message: props => `${props.value} is not a valid phone number!`
     },
