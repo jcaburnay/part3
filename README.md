@@ -13,4 +13,4 @@
 #### Link for deployment exercise: 
 For exercise 3.10: https://agile-wave-01036.herokuapp.com/api/persons
 
-For exercise 3.11: https://agile-wave-01036.herokuapp.com/
+For exercise 3.11, 3.21: https://agile-wave-01036.herokuapp.com/
